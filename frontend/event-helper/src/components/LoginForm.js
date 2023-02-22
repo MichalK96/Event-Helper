@@ -1,15 +1,61 @@
 import "../css/LoginAndRegister.css";
-import {useState} from "react";
-import React from "react";
-import {useNavigate} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 import AuthService from "../auth.serivce";
 import authSerivce from "../auth.serivce";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import React, { useState, useEffect } from 'react';
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import axios from 'axios';
 
 export default function LoginForm({Login, error}) {
 
     let navigate = useNavigate();
 
     const [errors, setErrors] = useState("");
+
+    const [ user, setUser ] = useState([]);
+    const [ profile, setProfile ] = useState([]);
+
+    useEffect(
+        () => {
+            if (user) {
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        setProfile(res.data);
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
+
+    useEffect(
+        () => {
+            if (profile){
+                console.log("weszlo mi tutaj do profile")
+                console.log("mail niby: " + profile.email)
+                console.log("name niby: " + profile.name)
+                AuthService.login(profile.email, "not_provided_yet").then(r => {
+                    if (authSerivce.getCurrentUser()){
+                        navigate("/home")
+                    }
+                })
+            }
+
+        }
+    )
+
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
     const [form, setForm] = useState({
         email: "",
@@ -41,6 +87,10 @@ export default function LoginForm({Login, error}) {
         });
     }
 
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+    };
 
     return (
         <>
@@ -75,6 +125,15 @@ export default function LoginForm({Login, error}) {
                                     </div>
 
                                     <button type="submit">LOG-IN</button>
+
+                                    {/*{profile ? (*/}
+                                    {/*    <div>*/}
+                                    {/*        <p>Imie: {profile.name}</p>*/}
+                                    {/*        <button onClick={logOut}>Log out</button>*/}
+                                    {/*    </div>*/}
+                                    {/*) : (*/}
+                                    {/*    <button onClick={() => login()}>Sign in with Google 🚀 </button>*/}
+                                    {/*)}*/}
 
                                 </form>
                             </div>

@@ -24,6 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public void processOauthUser(OAuth2User user){
+        System.out.println("processuje usera oath2!!!");
         if (!userRepository.findUserByEmail(user.getAttributes().get("email").toString()).isPresent()){
             userRepository.save(new User(user.getAttributes().get("given_name").toString(), "not_provided_yet", user.getAttributes().get("email").toString()));
         }

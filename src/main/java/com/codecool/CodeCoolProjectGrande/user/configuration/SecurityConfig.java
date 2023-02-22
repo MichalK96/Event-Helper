@@ -75,16 +75,14 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("http://localhost:3000/", true)
+                .defaultSuccessUrl("http://localhost:3000/oauth2/redirect", true)
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        System.out.println("AUTH SUKCES");
                         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
                         userDetailsService.processOauthUser(oAuth2User);
-                        System.out.println("co to jest? : " + oAuth2User.getAttributes());
-                        System.out.println("jakies get name xd: " + oAuth2User.getName() );
-                        System.out.println("chyba email: " + oAuth2User.getAttributes().get("email"));
-                        response.sendRedirect("http://localhost:3000/");
+                        response.sendRedirect("http://localhost:3000/oauth2/redirect");
                     }
                 });
 

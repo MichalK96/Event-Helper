@@ -18,6 +18,7 @@ const register = (username, password) => {
 };
 
 const login = (email, password) => {
+    console.log("weszlo do login")
     let customConfig = {
         headers: {
             'Content-Type': 'application/json'
