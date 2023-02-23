@@ -19,6 +19,8 @@ const register = (username, password) => {
 
 const login = (email, password) => {
     console.log("weszlo do login")
+    console.log("email w login  " + email)
+    console.log("haslo w login "  + password)
     let customConfig = {
         headers: {
             'Content-Type': 'application/json'

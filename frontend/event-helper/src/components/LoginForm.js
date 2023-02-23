@@ -5,6 +5,7 @@ import authSerivce from "../auth.serivce";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import React, { useState, useEffect } from 'react';
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import googleLogo from "../../src/assets/googlelogo.png";
 import axios from 'axios';
 
 export default function LoginForm({Login, error}) {
@@ -15,6 +16,7 @@ export default function LoginForm({Login, error}) {
 
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
+    const [oauthemail, setOauthemail] = useState([]);
 
     useEffect(
         () => {
@@ -38,22 +40,39 @@ export default function LoginForm({Login, error}) {
     useEffect(
         () => {
             if (profile){
-                console.log("weszlo mi tutaj do profile")
-                console.log("mail niby: " + profile.email)
-                console.log("name niby: " + profile.name)
-                AuthService.login(profile.email, "not_provided_yet").then(r => {
-                    if (authSerivce.getCurrentUser()){
-                        navigate("/home")
-                    }
+                setOauthemail(profile.email)
+                logOut()
+            }
+
+        }
+    )
+    useEffect(
+        () => {
+            if (oauthemail){
+                logOut();
+                console.log("masny oauth name: " + oauthemail)
+                AuthService.login(oauthemail, "Notprvided231").then(r => {
+                    // if (authSerivce.getCurrentUser()){
+                    //     navigate("/home")
+                    // }
+                    console.log("poszlo :)")
                 })
             }
 
         }
     )
 
+    const googleLogoStyle = {
+        height: "25px",
+        width: "25px"
+    };
+
 
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
+        onSuccess: (codeResponse) => {
+            setUser(codeResponse)
+            // navigate("/home")
+        },
         onError: (error) => console.log('Login Failed:', error)
     });
 
@@ -126,14 +145,18 @@ export default function LoginForm({Login, error}) {
 
                                     <button type="submit">LOG-IN</button>
 
-                                    {/*{profile ? (*/}
-                                    {/*    <div>*/}
-                                    {/*        <p>Imie: {profile.name}</p>*/}
-                                    {/*        <button onClick={logOut}>Log out</button>*/}
-                                    {/*    </div>*/}
-                                    {/*) : (*/}
-                                    {/*    <button onClick={() => login()}>Sign in with Google 🚀 </button>*/}
-                                    {/*)}*/}
+                                    {profile ? (
+                                        <div>
+                                            <p>Imie: {profile.name}</p>
+                                            <button onClick={logOut}>Log out</button>
+                                        </div>
+                                    ) : (
+                                        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+                                    )}
+
+                                    {/*<a className="btn btn-block social-btn google" href="/api/auth/google">*/}
+                                    {/*    <img src={googleLogo} alt="Google" style={googleLogoStyle} /> Sign in with Google 🚀*/}
+                                    {/*</a>*/}
 
                                 </form>
                             </div>
