@@ -37,12 +37,13 @@ public class Event {
     private boolean publicEvent;
     @Enumerated
     private EventType eventType;
+    @Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID userId;
     @JsonIgnore
     private Double latitude;
     private Double longitude;
     private String source;
-    @JoinColumn(name = "data")
+    @JoinColumn(name = "imageId")
     @OneToOne(cascade=CascadeType.ALL)
     private Image image;
     @ManyToMany

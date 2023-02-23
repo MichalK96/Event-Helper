@@ -5,16 +5,16 @@ export default function AdminNavbar() {
 
 
     const wroclawApi = async () =>{
-        window.alert("LOADING DATA FROM WROCLAW API");
-       await fetch("http://localhost:8080/api/events/data");
+        window.alert("LOADING DATA FROM WROCLAW API!");
+       await fetch("https://event-helper.alwaysdata.net/api/events/data");
         window.alert("DATA LOADED SUCCESFULLY");
     }
 
 
 
     const globalApi = async () =>{
-        window.alert("LOADING DATA FROM GLOBAL API");
-        await fetch("http://localhost:8080/api/events/global-data");
+        window.alert("LOADING DATA FROM GLOBAL API!");
+        await fetch("https://event-helper.alwaysdata.net/api/events/global-data");
         window.alert("DATA LOADED SUCCESFULLY");
     }
 

@@ -67,7 +67,6 @@ class EventServiceTests {
                     .latitude(222.0)
                     .longitude(222.0)
                     .eventStatus(EventStatus.PROMOTED)
-                    .logo("test.com")
                     .build();
 
 

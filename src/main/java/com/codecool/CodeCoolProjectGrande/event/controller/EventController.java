@@ -23,7 +23,7 @@ import java.util.*;
 
 @Controller
 @ResponseBody
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:3000/", "https://event-helper.pl"}, allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/api/events/")
 public class EventController {
 

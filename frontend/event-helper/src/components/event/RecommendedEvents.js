@@ -16,14 +16,14 @@ export default function RecommendedEvents() {
     }, []);
 
     const getEvents = async () =>{
-        const response = await fetch(`http://localhost:3000/api/events/getEventByType/FESTIVAL&0&5`);
+        const response = await fetch(`https://event-helper.alwaysdata.net/api/events/getEventByType/FESTIVAL&0&5`);
         const data = await response.json();
         setEvents(data);
     }
 
 
     async function popularButtonClick() {
-        const response = await fetch(`http://localhost:3000/api/events/getEventByType/FESTIVAL&0&5`);
+        const response = await fetch(`https://event-helper.alwaysdata.net/api/events/getEventByType/FESTIVAL&0&5`);
         const data = await response.json();
         setEvents(data);
         setPopularButtonStyle(function (prevState) {
@@ -37,7 +37,7 @@ export default function RecommendedEvents() {
     }
 
     async function musicButtonClick() {
-        const response = await fetch(`http://localhost:3000/api/events/getEventByType/CONCERT&0&5`);
+        const response = await fetch(`https://event-helper.alwaysdata.net/api/events/getEventByType/CONCERT&0&5`);
         const data = await response.json();
         setEvents(data);
         setMusicButtonStyle( function (prevState) {
@@ -51,7 +51,7 @@ export default function RecommendedEvents() {
     }
 
     async function festivalsButtonClick() {
-        const response = await fetch(`http://localhost:3000/api/events/getEventByType/PARTY&0&5`);
+        const response = await fetch(`https://event-helper.alwaysdata.net/api/events/getEventByType/PARTY&0&5`);
         const data = await response.json();
         setEvents(data);
         setFestivalsButtonStyle(function (prevState) {
