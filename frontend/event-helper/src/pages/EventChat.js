@@ -36,7 +36,7 @@ const EventChat = (props) => {
     };
 
     const loadChatFromDb = async () => {
-        const response = await fetch(`http://localhost:3000/api/chat/event/${props.eventId}`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/chat/event/${props.eventId}`);
         const data = await response.json();
         setPublicChats(data);
     }

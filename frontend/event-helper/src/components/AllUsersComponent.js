@@ -10,7 +10,7 @@ function AllUsersComponent() {
     }, []);
 
     const getUsers = async () => {
-        const response = await fetch(`http://localhost:3000/api/user/users`)
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/user/users`)
         const data = await response.json();
         setUsers(data);
     }

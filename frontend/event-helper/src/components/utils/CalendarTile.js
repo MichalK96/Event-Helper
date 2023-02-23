@@ -19,11 +19,11 @@ export default function CalendarTile(props) {
     let navigate = useNavigate();
     const getEvents = async () => {
         if(props.name==="user"){
-            const response = await fetch(`http://localhost:3000/api/events/assign-to-user/${props.userId}&10&10`);
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/events/assign-to-user/${props.userId}&10&10`);
             const data = await response.json();
             setEvents(data)
         }else{
-            const response = await fetch(`http://localhost:3000/api/events/`);
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/events/`);
             const data = await response.json();
             setEvents(data)
         }

@@ -131,7 +131,7 @@ export default function RegisterForm({Login, error}) {
                 password: password
             })
         };
-        fetch('http://localhost:3000/api/registration', requestOptions)
+        fetch(`${process.env.REACT_APP_URL}/api/registration`, requestOptions)
             .then(response => response.json())
         navigate("/home")
 

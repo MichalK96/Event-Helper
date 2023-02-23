@@ -22,7 +22,7 @@ export default function EventList() {
 
 
     const getEvents = async () => {
-        const response = await fetch(`http://localhost:3000/api/events/`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/`);
         const data = await response.json();
         setEvents(data);
         console.log(events)
@@ -65,7 +65,7 @@ export default function EventList() {
                 eventStatus: status
             })
         }
-        fetch('http://localhost:3000/api/events/set-status', requestOptions)
+        fetch(`${process.env.REACT_APP_URL}/api/events/set-status`, requestOptions)
             .then(response => console.log(response.status))
     }
 

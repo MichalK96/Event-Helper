@@ -14,7 +14,7 @@ export const Events = (props) => {
     const getEvents = async () =>{
         let ascending = true;
         if (props.asc === "descending")  ascending = false;
-        const response = await fetch(`https://event-helper.alwaysdata.net/api/events/sort/${props.sortBy}&${ascending}&${props.phrase}&0&5`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/sort/${props.sortBy}&${ascending}&${props.phrase}&0&5`);
         const data = await response.json();
         setEvents(data);
     }

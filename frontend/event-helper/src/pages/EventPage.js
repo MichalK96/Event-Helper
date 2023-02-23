@@ -39,7 +39,7 @@ export default function EventPage() {
 
     const setButtonsVisibility = async () => {
         if (isLoggedIn) {
-            const response = await fetch(`http://localhost:3000/api/user/${userDetails.sub}`);
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/user/${userDetails.sub}`);
             response.json().then(r => {
                 if (event.userId === r.userId) {
                     setButtonVisibility(true)
@@ -49,7 +49,7 @@ export default function EventPage() {
     }
 
     const getEvents = async () => {
-        const response = await fetch(`http://localhost:3000/api/events/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/${id}`, {
             method: 'GET',
         });
         const data = await response.json();
@@ -59,7 +59,7 @@ export default function EventPage() {
     }
 
     const numberOfAttendees = async  () => {
-        const response = await fetch(`http://localhost:3000/api/events/get-num-attendees/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/get-num-attendees/${id}`, {
             method: 'GET',
         });
         const data = await response.json()
@@ -68,7 +68,7 @@ export default function EventPage() {
 
     const isAssignToEvent = async () => {
         if (isLoggedIn) {
-            const response = await fetch(`http://localhost:3000/api/events/is-assign/${id}&${userDetails.sub}`, {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/events/is-assign/${id}&${userDetails.sub}`, {
                 method: 'GET'
             })
             const data = await response.json();
@@ -95,7 +95,7 @@ export default function EventPage() {
                     eventId: id,
                     userEmail: userDetails.sub })
             }
-            fetch('http://localhost:3000/api/events/assign-user-to-event', requestOptions)
+            fetch(`${process.env.REACT_APP_URL}/api/events/assign-user-to-event`, requestOptions)
                 .then(response => {
                     console.log(response.status)
                     isAssignToEvent().then(r => console.log(r))
@@ -108,7 +108,7 @@ export default function EventPage() {
 
     const deleteEvent = async (e) => {
         if (isLoggedIn && window.confirm("Are you sure you want delete your event?")) {
-            await fetch(`http://localhost:3000/api/events/delete-event/${userDetails.sub}&${id}`, {
+            await fetch(`${process.env.REACT_APP_URL}/api/events/delete-event/${userDetails.sub}&${id}`, {
                 method: 'DELETE'
             })
             window.location.replace("/home")
@@ -136,7 +136,7 @@ export default function EventPage() {
                 description: document.getElementById("event-descs").innerText
             })
         }
-        fetch('http://localhost:3000/api/events/edit-event-description', requestOptions)
+        fetch(`${process.env.REACT_APP_URL}/api/events/edit-event-description`, requestOptions)
             .then(response => console.log(response.status))
         setEditable("false");
         setButton(editButton);

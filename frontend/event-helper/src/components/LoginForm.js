@@ -35,7 +35,7 @@ export default function LoginForm({Login, error}) {
         })
         console.log(token)
         return axios
-            .post("http://localhost:3000/api/auth/" + "login", json, customConfig).then((response) => {
+            .post(process.env.REACT_APP_URL + "/api/auth/" + "login", json, customConfig).then((response) => {
                 localStorage.setItem("user", JSON.stringify(response.data))
                 const user = JSON.parse(localStorage.getItem('user'))
             }).then(res => {

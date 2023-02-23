@@ -18,11 +18,11 @@ function ForgotPasswordForm() {
         e.preventDefault();
         console.log("1")
         try {
-            await fetch(`http://localhost:3000/api/forgot-password`,{
+            await fetch(`${process.env.REACT_APP_URL}/api/forgot-password`,{
                 method:"POST",
                 headers:{"Content-Type":"application/json",
                     'Accept': 'application/json',
-                    'Origin': 'http://localhost:3000'},
+                    'Origin': process.env.REACT_APP_URL},
                 body:JSON.stringify(email)
             })
             setMessage("Password reset link sent to your email");

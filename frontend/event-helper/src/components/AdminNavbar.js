@@ -6,7 +6,7 @@ export default function AdminNavbar() {
 
     const wroclawApi = async () =>{
         window.alert("LOADING DATA FROM WROCLAW API!");
-       await fetch("https://event-helper.alwaysdata.net/api/events/data");
+       await fetch(`${process.env.REACT_APP_URL}/api/events/data`);
         window.alert("DATA LOADED SUCCESFULLY");
     }
 
@@ -14,7 +14,7 @@ export default function AdminNavbar() {
 
     const globalApi = async () =>{
         window.alert("LOADING DATA FROM GLOBAL API!");
-        await fetch("https://event-helper.alwaysdata.net/api/events/global-data");
+        await fetch(`${process.env.REACT_APP_URL}/api/events/global-data`);
         window.alert("DATA LOADED SUCCESFULLY");
     }
 
@@ -42,36 +42,5 @@ export default function AdminNavbar() {
                 </ul>
             </header>
         </>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // <Sidebar>
-    //     <Menu pagewrapid={"menuId"}>
-    //         <main id="menuId">
-    //         <SubMenu label="User">
-    //             <MenuItem> User stats </MenuItem>
-    //         </SubMenu>
-    //         <MenuItem> <a href="http://localhost:8080/">Spring boot logs</a> </MenuItem>
-    //         <MenuItem> <a href="https://sentry.io/organizations/event-helper/issues/?referrer=sidebar">React Logs</a> </MenuItem>
-    //         <MenuItem> <a href="/home">Home</a> </MenuItem>
-    //         <MenuItem> <button id="wroclawButton" onClick={wroclawApi}>Update Wroclaw data</button></MenuItem>
-    //         <MenuItem> <button id="globalButton" onClick={globalApi}>Update Global data</button></MenuItem>
-    //         </main>
-    //     </Menu>
-    // </Sidebar>
-
-
-
-
     )
 }

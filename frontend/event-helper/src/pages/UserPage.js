@@ -26,21 +26,21 @@ export default function UserPage(props) {
     const userDetails = authSerivce.parseJwt(isLoggedIn.value)
 
     const getUser = async () =>{
-        const response = await fetch(`http://localhost:3000/api/user/${userDetails.sub}`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/user/${userDetails.sub}`);
         const data = await response.json();
         setUser(data);
 
     }
 
     const getEvents = async() =>{
-        const response2 = await fetch(`http://localhost:3000/api/events/assign-to-user/${userDetails.sub}&10&10`);
+        const response2 = await fetch(`${process.env.REACT_APP_URL}/api/events/assign-to-user/${userDetails.sub}&10&10`);
         const data2 = await response2.json();
         setEvents(data2);
     }
 
     const deleteAccount = async () => {
         if (window.confirm("Are you sure that you want permanently remove your account")) {
-            await fetch(`http://localhost:3000/api/delete-account/${userDetails.sub}`, {
+            await fetch(`${process.env.REACT_APP_URL}/api/delete-account/${userDetails.sub}`, {
                 method: 'DELETE'
             })
             AuthService.logout();

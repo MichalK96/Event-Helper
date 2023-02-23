@@ -24,7 +24,7 @@ function CreateEventForm() {
 
     useEffect(() => {
         getUser().then(console.log(user))
-        fetch('http://localhost:3000/api/events/cities')
+        fetch(`${process.env.REACT_APP_URL}/api/events/cities`)
             .then(response => response.json())
             .then(data => setCities(data));
     }, []);
@@ -79,7 +79,7 @@ function CreateEventForm() {
     }
 
     const getUser = async () =>{
-        const response = await fetch(`http://localhost:3000/api/user/${userDetails.sub}`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/user/${userDetails.sub}`);
         const data = await response.json();
         setUser(data);
     }
@@ -124,7 +124,7 @@ function CreateEventForm() {
                 method: 'POST',
                 body: file
             };
-            fetch('http://localhost:3000/api/images/upload-image', requestOptions)
+            fetch(`${process.env.REACT_APP_URL}/api/images/upload-image`, requestOptions)
                 .then(response => response.json())
         }
     }
@@ -153,7 +153,7 @@ function CreateEventForm() {
                 eventStatus: "TO_VERIFICATION",
             })
         };
-        fetch(`http://localhost:3000/api/events/create-event/${userDetails.sub}`, requestOptions)
+        fetch(`${process.env.REACT_APP_URL}/api/events/create-event/${userDetails.sub}`, requestOptions)
             .then(response => console.log(response.status))
         onFileChangeHandler();
         navigate('/home');

@@ -22,7 +22,7 @@ function ResetPasswordForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (passwordValidationMsg() === true) {
-            await fetch(`http://localhost:3000/api/reset-password/?token=${token}`,{
+            await fetch(`${process.env.REACT_APP_URL}/api/reset-password/?token=${token}`,{
                 method:"PUT",
                 headers:{"Content-Type":"application/json",
                     'Accept': 'application/json',

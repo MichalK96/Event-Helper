@@ -14,7 +14,7 @@ export default function UserList() {
     const [users, setUsers] = useState([]);
 
     const getUsers = async () => {
-        const response = await fetch(`http://localhost:3000/api/users`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/users`);
         const data = await response.json();
         setUsers(data);
         console.log(users)
