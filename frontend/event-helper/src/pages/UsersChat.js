@@ -37,7 +37,7 @@ const UsersChat = () => {
     };
 
     const connect = () => {
-        let Sock = new SockJS('http://localhost:8080/ws');
+        let Sock = new SockJS(`${process.env.REACT_APP_URL}/ws`);
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
@@ -48,13 +48,13 @@ const UsersChat = () => {
     }
 
     const loadPublicChatsFromDb = async () => {
-        const response = await fetch(`http://localhost:3000/api/chat/public/${userData.username}`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/chat/public/${userData.username}`);
         const data = await response.json();
         setPublicChats(data);
     }
 
     const loadPrivateChatsFromDb = async () => {
-        const response = await fetch(`http://localhost:3000/api/chat/private/${userData.username}`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/chat/private/${userData.username}`);
         const data = await response.json();
         data.forEach(item => {
             setPrivateChats(prevPrivateChats => {

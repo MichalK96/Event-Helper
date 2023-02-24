@@ -6,8 +6,8 @@ import imageDefault from "../../assets/logociemne.png";
 
 export default function RecommendedEvents() {
     const [events, setEvents] = useState([]);
-    const [popularButtonStyle, setPopularButtonStyle] = useState("active-button");
-    const [musicButtonStyle, setMusicButtonStyle] = useState("disabled-button");
+    const [popularButtonStyle, setPopularButtonStyle] = useState("disabled-button");
+    const [musicButtonStyle, setMusicButtonStyle] = useState("active-button");
     const [festivalsButtonStyle, setFestivalsButtonStyle] = useState("disabled-button");
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function RecommendedEvents() {
     }, []);
 
     const getEvents = async () =>{
-        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/getEventByType/FESTIVAL&0&5`);
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events/getEventByType/CONCERT&0&5`);
         const data = await response.json();
         setEvents(data);
     }
