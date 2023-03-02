@@ -24,7 +24,7 @@ import java.util.*;
 @Controller
 @ResponseBody
 @CrossOrigin
-@RequestMapping("/api/events/")
+@RequestMapping("/api/events")
 public class EventController {
 
     private final EventServiceImpl eventService;
@@ -40,12 +40,12 @@ public class EventController {
         return eventService.getEvents();
     }
 
-    @GetMapping("{eventID}")
+    @GetMapping("/{eventID}")
     public Optional<Event> getEventByID(@PathVariable UUID eventID) {
         return eventService.getEventByID(eventID);
     }
 
-    @PostMapping("create-event/{userEmail}")
+    @PostMapping("/create-event/{userEmail}")
     public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String userEmail) {
         eventService.createEvent(event, userEmail);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -95,7 +95,7 @@ public class EventController {
     }
 
 
-    @GetMapping("data")
+    @GetMapping("/data")
     public ResponseEntity<?> saveWroclawData() {
         List<String> saveWroclawData = eventService.saveWroclawData();
         if (saveWroclawData == null) {
@@ -105,7 +105,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("global-data")
+    @GetMapping("/global-data")
     public ResponseEntity<?> saveGlobalData() {
         List<String> saveGlobalEvents = eventService.saveGlobalData();
         if (saveGlobalEvents == null) {
@@ -116,17 +116,17 @@ public class EventController {
     }
 
 
-    @GetMapping("assign-to-user/{email}&{page}&{size}")
+    @GetMapping("/assign-to-user/{email}&{page}&{size}")
     public List<Event> getAssignedEvents(@PathVariable String email, @PathVariable int page, @PathVariable int size) {
         return eventService.getAssignedEvents(email);
     }
 
-    @GetMapping("get-num-attendees/{eventId}")
+    @GetMapping("/get-num-attendees/{eventId}")
     public int getNumOfAttendees(@PathVariable UUID eventId) {
         return eventService.getNumOfAttendees(eventId);
     }
 
-    @DeleteMapping("delete-event/{userEmail}&{eventId}")
+    @DeleteMapping("/{userEmail}&{eventId}")
     public ResponseEntity<?> deleteEvent(@PathVariable String userEmail, @PathVariable UUID eventId) {
         return eventService.deleteEvent(userEmail, eventId);
     }

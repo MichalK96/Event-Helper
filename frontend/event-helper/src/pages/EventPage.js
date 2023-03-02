@@ -108,7 +108,7 @@ export default function EventPage() {
 
     const deleteEvent = async (e) => {
         if (isLoggedIn && window.confirm("Are you sure you want delete your event?")) {
-            await fetch(`http://localhost:3000/api/events/delete-event/${userDetails.sub}&${id}`, {
+            await fetch(`http://localhost:3000/api/events/${userDetails.sub}&${id}`, {
                 method: 'DELETE'
             })
             window.location.replace("/home")
