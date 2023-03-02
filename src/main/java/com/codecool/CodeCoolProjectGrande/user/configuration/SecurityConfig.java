@@ -79,9 +79,8 @@ public class SecurityConfig {
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        System.out.println("AUTH SUKCES");
                         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-                        userDetailsService.processOauthUser(oAuth2User);
+                        userDetailsService.processOauthUser(oAuth2User, passwordEncoder().encode("Notprovided231"));
                         response.sendRedirect("http://localhost:3000/");
                     }
                 });

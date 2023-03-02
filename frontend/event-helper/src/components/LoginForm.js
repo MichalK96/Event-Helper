@@ -17,6 +17,7 @@ export default function LoginForm({Login, error}) {
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
     const [oauthemail, setOauthemail] = useState([]);
+    const [oauthname, setOauthname] = useState([]);
 
     useEffect(
         () => {
@@ -30,6 +31,7 @@ export default function LoginForm({Login, error}) {
                     })
                     .then((res) => {
                         setProfile(res.data);
+                        console.log("moj profile: " + profile)
                     })
                     .catch((err) => console.log(err));
             }
@@ -41,6 +43,7 @@ export default function LoginForm({Login, error}) {
         () => {
             if (profile){
                 setOauthemail(profile.email)
+                setOauthname(profile.name)
                 logOut()
             }
 
@@ -49,13 +52,8 @@ export default function LoginForm({Login, error}) {
     useEffect(
         () => {
             if (oauthemail){
-                logOut();
-                console.log("masny oauth name: " + oauthemail)
-                AuthService.login(oauthemail, "Notprvided231").then(r => {
-                    // if (authSerivce.getCurrentUser()){
-                    //     navigate("/home")
-                    // }
-                    console.log("poszlo :)")
+                AuthService.loginOauthUser(oauthemail,oauthname,"Notprovided231").then(r => {
+                    navigate("/home")
                 })
             }
 
@@ -71,7 +69,6 @@ export default function LoginForm({Login, error}) {
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => {
             setUser(codeResponse)
-            // navigate("/home")
         },
         onError: (error) => console.log('Login Failed:', error)
     });
@@ -145,18 +142,18 @@ export default function LoginForm({Login, error}) {
 
                                     <button type="submit">LOG-IN</button>
 
-                                    {profile ? (
-                                        <div>
-                                            <p>Imie: {profile.name}</p>
-                                            <button onClick={logOut}>Log out</button>
-                                        </div>
-                                    ) : (
-                                        <button onClick={() => login()}>Sign in with Google 🚀 </button>
-                                    )}
+                                    {/*{profile ? (*/}
+                                    {/*    <div>*/}
+                                    {/*        <p>Imie: {profile.name}</p>*/}
+                                    {/*        <button onClick={logOut}>Log out</button>*/}
+                                    {/*    </div>*/}
+                                    {/*) : (*/}
+                                    {/*    <button onClick={() => login()}>Sign in with Google 🚀 </button>*/}
+                                    {/*)}*/}
 
-                                    {/*<a className="btn btn-block social-btn google" href="/api/auth/google">*/}
-                                    {/*    <img src={googleLogo} alt="Google" style={googleLogoStyle} /> Sign in with Google 🚀*/}
-                                    {/*</a>*/}
+                                    <a className="btn btn-block social-btn google">
+                                        <button id="googleBtn" onClick={()=> login()}><img src={googleLogo} alt="Google" style={googleLogoStyle} /> Sign in with Google 🚀</button>
+                                    </a>
 
                                 </form>
                             </div>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public void processOauthUser(OAuth2User user){
-        System.out.println("processuje usera oath2!!!");
+    public void processOauthUser(OAuth2User user, String userPassword){
         if (!userRepository.findUserByEmail(user.getAttributes().get("email").toString()).isPresent()){
-            userRepository.save(new User(user.getAttributes().get("given_name").toString(), "not_provided_yet", user.getAttributes().get("email").toString()));
+            userRepository.save(new User(user.getAttributes().get("given_name").toString(), userPassword, user.getAttributes().get("email").toString()));
         }
     }
 
