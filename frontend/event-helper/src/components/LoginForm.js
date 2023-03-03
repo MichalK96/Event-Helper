@@ -1,27 +1,32 @@
 import "../css/LoginAndRegister.css";
-import {redirect, useNavigate} from "react-router-dom";
-import AuthService from "../auth.serivce";
 import {useEffect, useState} from "react";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import authSerivce from "../auth.serivce";
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import React, { useState, useEffect } from 'react';
-import {GoogleOAuthProvider} from "@react-oauth/google";
-import googleLogo from "../../src/assets/googlelogo.png";
-import axios from 'axios';
 import axios from "axios";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import googleLogo from "../../src/assets/googlelogo.png";
+import AuthService from "../auth.serivce";
 
 export default function LoginForm({Login, error}) {
-
-    let navigate = useNavigate();
-    const [errors, setErrors] = useState("");
-    const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
     const [oauthemail, setOauthemail] = useState([]);
     const [oauthname, setOauthname] = useState([]);
+
+    let navigate = useNavigate();
+    const [errors, setErrors] = useState("");
+    const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+    const [form, setForm] = useState({
+        email: "",
+        password: ""
+    });
+    const {email, password} = form;
+
+    function handleChange(e) {
+        setForm({...form, [e.target.name]: e.target.value});
+    }
 
     useEffect(
         () => {
@@ -52,6 +57,7 @@ export default function LoginForm({Login, error}) {
 
         }
     )
+
     useEffect(
         () => {
             if (oauthemail){
@@ -76,18 +82,11 @@ export default function LoginForm({Login, error}) {
         onError: (error) => console.log('Login Failed:', error)
     });
 
-    const [form, setForm] = useState({
-        email: "",
-        password: ""
-    });
-    const {email, password} = form;
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+    };
 
-    function handleChange(e) {
-        setForm({...form, [e.target.name]: e.target.value});
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault();
 
 
     const submitData = token => {
@@ -151,10 +150,12 @@ export default function LoginForm({Login, error}) {
         });
     }
 
-    const logOut = () => {
-        googleLogout();
-        setProfile(null);
-    };
+
+
+
+
+
+
 
     return (
         <>
@@ -188,13 +189,10 @@ export default function LoginForm({Login, error}) {
                                     <div className="forget-pass">
                                         <a href="/forgot-password">Forgot Password ?</a>
                                     </div>
-
                                     <button type="submit">LOG-IN</button>
-
                                     <a className="btn btn-block social-btn google">
                                         <button id="googleBtn" onClick={()=> login()}><img src={googleLogo} alt="Google" style={googleLogoStyle} /> Sign in with Google 🚀</button>
                                     </a>
-
                                 </form>
                             </div>
 
