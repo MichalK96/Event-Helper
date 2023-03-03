@@ -20,7 +20,8 @@ const register = (username, password) => {
 const login = (email, password, token) => {
     let customConfig = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
         }
     };
     let json = JSON.stringify({
@@ -30,6 +31,7 @@ const login = (email, password, token) => {
     })
     return axios
         .post(API_URL + "login", json, customConfig).then((response) => {
+            console.log("response axiosa po wyslanym poscie: " + JSON.stringify(response.data))
             localStorage.setItem("user", JSON.stringify(response.data))
             const user = JSON.parse(localStorage.getItem('user'))
         })
@@ -42,6 +44,25 @@ const parseJwt = (token) => {
     return JSON.parse(window.atob(base64));
 }
 
+const loginOauthUser = (email, name, password) => {
+    let customConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
+        }
+    };
+    let json = JSON.stringify({
+        email: email,
+        username: name,
+        password: password,
+    })
+    return axios
+        .post(API_URL + "login/oauth", json, customConfig).then((response) => {
+            localStorage.setItem("user", JSON.stringify(response.data))
+            const user = JSON.parse(localStorage.getItem('user'))
+        })
+}
+
 const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 }
@@ -50,6 +71,7 @@ const getCurrentUser = () => {
 const logout = () => {
     return axios.post(API_URL + "logout").then((response) => {
         localStorage.removeItem("user");
+        localStorage.clear();
         useNavigate("/home");
         return response.data;
     });
@@ -61,7 +83,8 @@ const AuthService = {
     login,
     logout,
     getCurrentUser,
-    parseJwt
+    parseJwt,
+    loginOauthUser
 }
 
 export default AuthService;

@@ -1,5 +1,6 @@
 package com.codecool.CodeCoolProjectGrande.user.auth;
 
+import com.codecool.CodeCoolProjectGrande.user.User;
 import com.codecool.CodeCoolProjectGrande.user.auth.ReCaptchaV3.ReCAPTCHAv3Exception;
 import com.codecool.CodeCoolProjectGrande.user.auth.ReCaptchaV3.ReCAPTCHAv3Response;
 import com.codecool.CodeCoolProjectGrande.user.auth.ReCaptchaV3.ReCAPTCHAv3Utils;
@@ -12,11 +13,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -67,9 +75,21 @@ public class AuthController {
                 .body(jwtCookie);
     }
 
+    @PostMapping("/login/oauth")
+    public ResponseEntity<ResponseCookie> authenticateOauthUser(@Valid @RequestBody LoginRequest loginRequest) {
+        if (!userRepository.findUserByEmail(loginRequest.getEmail()).isPresent()){
+            userRepository.save(new User(loginRequest.getUsername(), encoder.encode(loginRequest.getPassword()), loginRequest.getEmail()));
+        }
+        ResponseCookie jwtCookie = userService.authenticateUser(loginRequest);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(jwtCookie);
+    }
+
+
     @PostMapping("/logout")
     public ResponseEntity<String> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        System.out.println("wyczysciolo cookie ----------logout");
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body("You've been signed out!");
     }

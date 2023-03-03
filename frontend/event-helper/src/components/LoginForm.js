@@ -4,8 +4,16 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import authSerivce from "../auth.serivce";
 import axios from "axios";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import googleLogo from "../../src/assets/googlelogo.png";
+import AuthService from "../auth.serivce";
 
 export default function LoginForm({Login, error}) {
+
+    const [ user, setUser ] = useState([]);
+    const [ profile, setProfile ] = useState([]);
+    const [oauthemail, setOauthemail] = useState([]);
+    const [oauthname, setOauthname] = useState([]);
 
     let navigate = useNavigate();
     const [errors, setErrors] = useState("");
@@ -19,6 +27,65 @@ export default function LoginForm({Login, error}) {
     function handleChange(e) {
         setForm({...form, [e.target.name]: e.target.value});
     }
+
+    useEffect(
+        () => {
+            if (user) {
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        setProfile(res.data);
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
+
+    useEffect(
+        () => {
+            if (profile){
+                setOauthemail(profile.email)
+                setOauthname(profile.name)
+                logOut()
+            }
+
+        }
+    )
+
+    useEffect(
+        () => {
+            if (oauthemail){
+                AuthService.loginOauthUser(oauthemail,oauthname,"Notprovided231").then(r => {
+                    navigate("/home")
+                })
+            }
+
+        }
+    )
+
+    const googleLogoStyle = {
+        height: "25px",
+        width: "25px"
+    };
+
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => {
+            setUser(codeResponse)
+        },
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+    };
 
 
 
@@ -123,6 +190,9 @@ export default function LoginForm({Login, error}) {
                                         <a href="/forgot-password">Forgot Password ?</a>
                                     </div>
                                     <button type="submit">LOG-IN</button>
+                                    <a className="btn btn-block social-btn google">
+                                        <button id="googleBtn" onClick={()=> login()}><img src={googleLogo} alt="Google" style={googleLogoStyle} /> Sign in with Google 🚀</button>
+                                    </a>
                                 </form>
                             </div>
 

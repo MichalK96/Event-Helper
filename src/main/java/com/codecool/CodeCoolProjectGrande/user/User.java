@@ -44,6 +44,7 @@ public class User {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.userType = UserType.USER;
     }
 
     //    @JsonIgnore
