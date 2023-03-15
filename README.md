@@ -1,3 +1,5 @@
+Please review the project on event-helper.pl
+
 # Description
 
 The "Event Helper" project is a web-based application that allows users to browse and join events. The application utilizes two external APIs, one for events in the city of Wroclaw and one for global events. Users can also create and add their own events to the platform. The platform has a login and registration feature for users to create an account. The technology stack used to build this platform includes React for the front-end, Java SpringBoot for the back-end, AWS for cloud hosting, Docker for containerization, Postgres for the database, Github for version control, and Jira for project management. This project aims to provide a convenient way for users to discover and participate in events happening in their city or around the world.
